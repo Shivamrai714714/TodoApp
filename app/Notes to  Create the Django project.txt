@@ -1,0 +1,319 @@
+1.Download and install the python and check box add to path..
+2.Check in cmd  python --version
+3.Create  Todo project folder and create the virtual environment for this app.
+4.open cmd and in path  Todo folder from it
+5.Install the virtual environment in Todo folder using cmd 
+  
+=> pip install virtualenv
+
+6. Create the virtual environment .
+
+=> virtualenv venv
+
+(*If this method does not work , just open command pallet and search 'create virtual environment' and then search 'open new terminal '  )
+
+7.Now install the Django inside this virtual environment for that we need to activate the "venv"
+-Activate the environment (*skip this if used the command pallet to create virtual environment , as new termial will be open it virtual environment (.venv),which is activated itself ).
+cd venv
+cd Scripts
+activate       (In flask we do activate.ps1)
+
+
+Now go back Todo folder using cd.. 
+
+=> pip install django==3.1.2               (To install specific verison of Django use this)
+
+In case of new project.
+8.now we need to start the project using Django admin
+
+=> django-admin startproject todo .           (take care '.' repesent to create mangae.py file in same directory.)
+
+
+--To Run the project write the command on cmd (with environment (venv) activated) : 
+**********************  
+=> python manage.py runserver  
+
+(If your running anyone others project do create the db and the super user)
+
+
+9. multiple application need to be created for seperate application modules.(in big website)
+ (No required here. )
+ So create single app
+
+=> django-admin startapp app
+
+10.Now Download Vs Code , I already have.
+
+- Go To main Todo Folder in cmd and write "code ." (Shortcut to open VsCode , like we use idea.64 in Intellij)
+-Install python extension.
+
+STEPS NEED FOR INITIAL _ SETUP : 
+
+11.Open app folder and handle url from here.
+
+- Now we have copied a file "todo.url"  from todo directory   into the app folder.
+- Now we need to set the configuration to handle the requests of the url. So follow the steps.
+
+-in app folder :  urls.py file ->  define a function home and pass it in path()  function in urlpattern[] array.
+-in todo folder : urls.py file ->   Whenever the request come from "" empty path to the todo App . We need to check in app folder->urls.py file. So just import it here using include() and write the path function.
+-in todo folder :  setting.py  ->  Now add the app name in INSTALLED_APPS[]  array.
+
+Go back to app folder urls.py file
+
+In app folder -  views.py file ( we made the end points )
+Now in function home we have not returned the HttpResponse  in view(home function)
+Import the Http response from the django.shortcuts/django.http and return HttpRespnse from the home() function.
+
+
+***
+Now run the project in our venv environment from console.
+
+
+-Now we need to keep the views(functions used) like "home"   in file  insde the Todo "views.py" file
+ So just cut paste the home view from the url.py file to views.py file. And just import the home to use. it whereever required.
+
+
+__________________
+_________________
+
+12.Now creating the html files to return them in HttpResponse and show the html content.
+
+Create templates folder in app folder. And make html file here.
+Now to show it with the view (home function ) , just use the render method  (instead  to return the HttpResponse.)
+ie views.py file has
+
+=> from django.shortcuts import render
+
+def home(request):
+    return  render(request,'index.html')
+
+Create the navbar in index.html
+
+
+****** Use ms-auto to send elements to right side  inside the navbar. 
+--------------------  
+
+
+13. Now  using the databases present in django
+
+- the commad , of migrate. (to create the database)
+
+ python manage.py migrate   (This is also helpful , when we are loading the changes of some other person project.)
+
+
+-go to http://127.0.0.1:8000/admin   : To see the admin portal
+
+-Now creating the super user form terminal.
+
+python manage.py createsuperuser  
+username : root
+password : root
+
+-Now run the project & login in DB 
+
+14.Now we will link the signup page , to add the normal user to the database.
+
+(I was tired to copy the code and follow up with the steps of the persion , so i decided to run the code from the github  repository.  )
+
+
+Follow the commmand from the initally and then just also do the mirgate command to reflect changes in our computer.
+
+STEPS : To Run anyones django project.
+
+-Make sure python is installed and vs Code Editor we need.
+-Open the downloaded folder .Create virtual environment, activate it , migrate the changes in project , run the project , create the database superuser (localhost/admin) , Enjoy your app. If the create virtual environment does not work from terminal . Just use the Command pattlet and create from there. And Also open new terminal from there. (a folder will be created venv)
+
+Steps :
+
+
+
+
+-open Powershell and install virtual environment
+
+pip install virtualenv
+virtualenv venv
+
+cd venv
+cd Scripts
+activate
+
+//come back to Todo-main folder  - make sure  (venv)  is activated.
+
+pip install django==3.1.2
+
+//To run the app.
+python manage.py runserver
+
+// Now Stop the project using Ctrl + C . And go back to terminal 
+// To reflect the changes of downloaded project in our virtual environment.
+python manage.py migrate 
+
+_____________________________
+
+ADMIN DATABASE PANNEL 
+
+http://127.0.0.1:8000/admin
+
+//Now create the superuser to see database of Django
+
+python manage.py createsuperuser  
+username : root
+password : root
+press y to confirm
+
+
+Now run the project. 
+python manage.py runserver
+
+Now create the Normal User and And logIn to access the portal
+
+
+
+
+
+
+
+
+
+____________________________________
+
+Continue project :
+
+____________________________________
+____________________________________
+
+15.
+We are creating the form using the inbuit import of Django
+
+{{form}}   - using it to pass it dynamically to the html page.
+
+-Now using bootstrap to enclose this default form  using the bootstrap.
+<form>
+....
+,...
+
+</form
+
+
+
+16.Creating User : 55:00 min
+
+*We need to add csrf token to the form . to make the post request of form to the database.
+It get attach the with form ,each time making the request to the db.
+
+
+_______________________________________________________________________________
+
+EXTRA NOTES :::::
+
+
+
+-The main Todo app ..  works from modules  . Here we have single module "app" module.
+-All the  files are used from app folder. We do one change ie  if '' , '/login' , '/sigup' etc  request comes. We just define all these in app folder urls.py file. And here in Todo folder url.py file we just add this line to handle request ::  path('' , include('app.urls'))
+-url / end points are kept App Folder in " views.py "  file . All other forms like default django projects are kepts in forms.py file. And other models we define ( like to show the list ) we define the class in "model.py "  file  
+
+-Whaever request come to Todo app is fulfilled by the app folder urls.py file end points.
+
+-In view.py file . We define the method which contains the "request" object in arguament (it has all user details, token attached etc ).   
+ We just import the item which we want to show on html pages.
+ We return statemnet from function / method . render method returns the html page to be shown , request object (can be used to show details related to user on html pages ) , context={ form=form , todo=todo }  (it contains all the fetched data to be passed to shown in html pages.)
+
+
+-Forms.py file : we have imported the default form( here we have taken title , status, priority ) of Django here.
+-Models.py file : contains the explicit classes (eg) Todo object to show the (title , status , priority , action )
+
+
+-In Index.html we can show the content which we have return in render() ie 
+ return render(request , 'index.html' , context={'form' : form , 'todos' : todos})
+
+In index.html we have used the template inheritance .So top and bottom content will be loaded from the base.html page. 
+-We need to write the body of the index.html
+
+-We have done conditional rendering using the {%if  ..  % }  condition to show log , logout buttons. in base.html file.
+-In index.html we have used the csrf token with post request (As form is submitting to /add-todo/   end point  with post request.)
+-We have used conditional rendering to show the completed and pending status Of the Todo Task.
+-Also adding the submit button exterrnally to submitted the imported form to the url.
+
+Now this submit button will fire to the end point  "/add-todo" .So we need to create this end point in the views.py file.
+
+ In views.py . Refer def add_todo(request) method. The request object contains all the information like  user , form data submitted. etc
+-First of all we are going to Check the Request method.  add the condition to chech if user is authentiacated/loggedin then submit its form  
+ 
+-If authentiacted user is submitting the form. Then just fetch the user from request object . 
+-Also fetch the form values filled by the user from the request object mention the request.POST. 
+-We now check for validation in form. , otherwise just redirect to index page to fill the form again in index page .
+-now saving the data of form in todo object. Also saving user associated with the todo. Then saving it. And redirecting to the home index. page to show all the list.s
+
+
+
+-render() is used to show the html pages , along with sending 'request' object and collection  'context={ , }' with it.
+    eg render(request , 'index.html' , context={'form' : form})
+ 
+-redirect("home") : it just used to move to particularr page with their name defined in app folders - urls.py file .
+
+
+_____________________ Now seeing the other end points defined in the project.____________________________
+
+== >  home
+
+-The  localhost:8080/         - this url point to home end point , represent the main page.
+
+In home page , we have just fetched user from request object and check , is_authenticated user .
+ - Also we have created the object of TODOForm() which is defined forms.py file and which import the default forrm of Djano 
+ - Also we have crated the object of todos object to show the list of todolist to user. (TODO is class which we have defined in model.py created to show the list to user.) 
+
+Now passing all these object in return statement with the render function  to be shown on index.html page.
+
+
+== >  login
+
+-This end  point is created to handle the url of login button clicked from the login form.
+-When the request is with GET method , we need to show the login form .
+-We have directly imported the AuthenticationFrom from the django.contrib.auth.forms and created the context{ "form":form1  } object to  pass in the render function
+ 
+2 When the request to login url , is by POST method. We need to authenticate the username and password entered by userr
+
+-Collecting the form data from  AuthenticationForm(data=request.POST) , then validating the form. And fetching the username and password. and using the authenticate function which will chech the user and its password from database of django.
+-If user exits with correct  password , we just call the loginUser( )  , to set the current user to the session and redirect to "home page"  which show the todos of current user.
+If form is not valid then in context we will fetch the form and again show the login.html page.Which will show the error in filling details.
+
+
+ 
+== > sigup 
+
+- This end point is helpfull for handling the api call when new user register for the first Time. Its validate the values and use Inbuit UserCreating form and save the data (user) in the database. 
+- When the form is submitted from the sigup.html  it call the  '/signup' url  . (wehere we have attached the csrf token (needed with post request ) , also displayed the entire form as p  )
+
+-When the SignUp button is clicked from navbar, the get request is generated to this signup end point and its simple show the signup page with UserCreationForm and context
+
+** We are passing the context because to carray the variable used like form , todos etc  to the other html page we need carrier.
+  So either pass them inside the context{} while using return statement (eg def home () ) . Or create the key values pair inside the context object and pass the context object itself in return staement render function.
+
+-When  the request POST come to signup end point . We just validate the  form and then save the user in the database using user=form.save() , and then redirrect to login function by passing name of login end point in redirect function that make  get request. 
+-Else if form is invalid, then same page is shown with required instructions.
+
+
+==> add_todo   - already discussed.
+
+==> delete_todo  uses the TODO class itself and call the delete method by using below code.    
+    TODO.objects.get(pk = id).delete().
+    Then redirect to home page.
+
+==> change_todo   - this fucntion is to change the status of task , ie pending -> completed etc
+  This end point is used when button is clicked from the list item option, 
+  firstly we fetch the object of TODO class using get()
+  And then update the status of object with the new status brought forward from the function call.
+  then save the todo and rredirect to home page
+
+==> signout 
+   we just use the logout inbuilt method to remvoe the user from the current session and return to the login page.
+
+
+
+
+___________________________________________________________  END ____________________________________________________
+
+
+
+
+
